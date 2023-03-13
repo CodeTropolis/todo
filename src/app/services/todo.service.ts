@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -7,19 +7,22 @@ import { BehaviorSubject, Observable, Subject } from 'rxjs';
 export class TodoService {
 
   private itemArr = ["Groceries", "Study", "World Domination"]
-  private _item: BehaviorSubject<string[]> = new BehaviorSubject(this.itemArr);
-  items$ = this._item as Subject<string[]>
+  // Per Debrah Kurata: https://youtu.be/vtCDRiG__D4?t=1291
+  // Keep item private - only allow this service to be able to emit into the `item` stream.
+  private item: BehaviorSubject<string[]> = new BehaviorSubject(this.itemArr);
+  // Expose the read-only observable.
+  items$ = this.item // Do not use .asObservable(). Will cause type mismatch
   
   constructor() {}
    
   addItem(item:string){
     this.itemArr.push(item)
-    this._item.next(this.itemArr)
+    this.item.next(this.itemArr)
   }
 
   removeItem(index:number){
     this.itemArr.splice(index,1)
-    this._item.next(this.itemArr)
+    this.item.next(this.itemArr)
   }
 
 }
