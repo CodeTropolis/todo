@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +11,7 @@ export class TodoService {
   // Keep item private - only allow this service to be able to emit into the `item` stream.
   private item: BehaviorSubject<string[]> = new BehaviorSubject(this.itemArr);
   // Expose the read-only observable.
-  items$ = this.item // Do not use .asObservable(). Will cause type mismatch
+  items$ = this.item as Subject<string[]>
   
   constructor() {}
    
