@@ -9,7 +9,7 @@ import { TodoService } from '../services/todo.service';
 })
 export class TodoListComponent {
 
-  todos$ = new Subject<string[]>()
+  todos$ = new Observable<string[]>()
   input: any;
 
   constructor(private todoService: TodoService){}

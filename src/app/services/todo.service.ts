@@ -9,11 +9,12 @@ export class TodoService {
   private itemArr = ["Groceries", "Study", "World Domination"]
   // Per Debrah Kurata: https://youtu.be/vtCDRiG__D4?t=1291
   // Keep item private - only allow this service to be able to emit into the `item` stream.
-  private item: BehaviorSubject<string[]> = new BehaviorSubject(this.itemArr);
+  private item = new BehaviorSubject<string[]>(this.itemArr);
   // Expose the read-only observable.
-  items$ = this.item as Subject<string[]>
+  items$ = this.item.asObservable()   
   
   constructor() {}
+
    
   addItem(item:string){
     this.itemArr.push(item)
